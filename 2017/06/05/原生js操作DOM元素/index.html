@@ -1,0 +1,432 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>原生js操作DOM元素 | yk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=3, minimum-scale=1">
+    
+    <meta name="author" content="yk">
+    
+    <meta name="description" content="本文主要讲述一些原生的js来操作DOM元素的方法。
+目前市场上的一些js库很多：jQuery、Angular、prototype、lodash、react、vue等方便了我们应用。但有时候如果开发一些自己的js库，还是要用到原生js。
+当前元素节点
+obj.getElementById()  返回带">
+    
+    
+    
+    
+    <link rel="alternate" href="/atom.xml" title="yk" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/pacman.png">
+    <link rel="apple-touch-icon-precomposed" href="/img/pacman.png">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      <div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="yk" title="yk"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="yk">yk</a></h1>
+				<h2 class="blog-motto">无巧不成书之草色遥看</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">归档</a></li>
+					
+						<li><a href="/share">分享</a></li>
+					
+						<li><a href="/essay">随笔</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+					<li>
+					
+					<form class="search" action="/search/index.html" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="text" id="search" autocomplete="off" name="q" maxlength="20" placeholder="搜索" />
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2017/06/05/原生js操作DOM元素/" title="原生js操作DOM元素" itemprop="url">原生js操作DOM元素</a>
+  </h1>
+  <p class="article-author">By
+    
+      <a href="https://yk1062008412.github.io" title="yk">yk</a>
+    </p>
+  <p class="article-time">
+    <time datetime="2017-06-05T13:39:09.000Z" itemprop="datePublished">2017-06-05</time>
+    更新日期:<time datetime="2019-11-25T09:16:05.833Z" itemprop="dateModified">2019-11-25</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#当前元素节点"><span class="toc-number">1.</span> <span class="toc-text">当前元素节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素相关节点"><span class="toc-number">2.</span> <span class="toc-text">元素相关节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建节点"><span class="toc-number">3.</span> <span class="toc-text">创建节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器宽高"><span class="toc-number">4.</span> <span class="toc-text">浏览器宽高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于jQuery一些方法"><span class="toc-number">5.</span> <span class="toc-text">基于jQuery一些方法</span></a></li></ol>
+		</div>
+		
+		<p>本文主要讲述一些原生的js来操作DOM元素的方法。</p>
+<p>目前市场上的一些js库很多：jQuery、Angular、prototype、lodash、react、vue等方便了我们应用。但有时候如果开发一些自己的js库，还是要用到原生js。</p>
+<h2 id="当前元素节点"><a href="#当前元素节点" class="headerlink" title="当前元素节点"></a>当前元素节点</h2><ul>
+<li>obj.getElementById()<br>  返回带有指定 ID 的元素。</li>
+<li>obj.getElementsByTagName()<br>  返回包含带有指定标签名称的所有元素的节点列表（集合/节点数组）。</li>
+<li>obj.etElementsByClassName()<br>  返回包含带有指定类名的所有元素的节点列表。</li>
+<li>obj.getElementsByName()<br>  方法可返回带有指定名称的对象的集合。</li>
+</ul>
+<h2 id="元素相关节点"><a href="#元素相关节点" class="headerlink" title="元素相关节点"></a>元素相关节点</h2><ul>
+<li>node.childNodes<br>  只读 childNodes 属性返回节点的子节点集合，以 NodeList 对象。注意他包括文本节点和元素节点(即像换行，空白这些也算 .nodeName 当前元素类型名称|.nodeType 当前元素类型)</li>
+<li>node.children<br>  只读 children则不包括文本节点，只有元素节点，子节点列表。</li>
+<li>node.firstChild<br>  只读 node里的第一个节点 （注意，标准下包含文本节点+元素节点  非标准下只含元素节点）推荐使用children[0]</li>
+<li>node.lastChild<br>  只读 node里的最后一个节点</li>
+<li>node.nextSibling || node.nextElementSibling<br>  下一个兄弟节点 （注意，这个包含文本节点，前者标准和非标，后者ie下没有）</li>
+<li>node.previousSibling || node.previousElementSibling<br>  上一个兄弟节点 （注意，这个包含文本节点，前者标准和非标，后者ie下没有）</li>
+<li>node.parentNode<br>  node的父亲节点，仅有一个 只读 无兼容问题。</li>
+<li>node.offsetParent<br>  只读 父节点（有定位的父节点，有多个则离他最近的一个）<br>  1.如果没有定位的父节点则博人body。<br>  2.如果他自身是定位则ie7以下为html，其他为body。<br>  3.如果他的父级有一个设置了zoom：1 则表示这个父级</li>
+</ul>
+<h2 id="创建节点"><a href="#创建节点" class="headerlink" title="创建节点"></a>创建节点</h2><ul>
+<li>document/node.createElement(“标签名”)<br>  创建元素节点。</li>
+<li>createTextNode(内容)<br>  创建文本节点。</li>
+<li>node.appendChild(node)<br>  把新的子节点添加到该node节点里面并且是最后面。这个新节点可以是文档中某个已存在的节点，也可以是创建新的节点。</li>
+<li>node.insertBefore(newnode必填,existingnode)<br>  在该节点里面指定的子节点前面插入新的子节点。这个新节点可以是文档中某个已存在的节点，也可以是创建新的节点。</li>
+<li>node.removeChild(node)<br>  删除该节点里面的node子节点。</li>
+<li>node.replaceChild(newnode,oldnode)<br>  新替换该节点里面旧(newnode,oldnode)这个新节点可以是文档中某个已存在的节点，也可以是创建新的节点。</li>
+<li>createAttribute()<br>  创建属性节点。</li>
+<li>element.getAttribute(属性名)<br>  返回指定的属性值。</li>
+<li>element.setAttribute(属性名，属性值)<br>  setAttribute() 方法添加指定的属性，并为其赋指定的值。如果这个指定的属性已存在，则仅设置/更改值</li>
+</ul>
+<h2 id="浏览器宽高"><a href="#浏览器宽高" class="headerlink" title="浏览器宽高"></a>浏览器宽高</h2><ul>
+<li>div容器宽: obj.style.width;</li>
+<li>div容器高: obj.style.height;</li>
+<li>网页可见区域宽: document.body.clientWidth;</li>
+<li>网页可见区域高: document.body.clientHeight;</li>
+<li>网页可见区域宽: document.body.offsetWidth   (包括边线的宽);</li>
+<li>网页可见区域高: document.body.offsetHeight  (包括边线的宽);</li>
+<li>网页正文全文宽: document.body.scrollWidth;</li>
+<li>网页正文全文高: document.body.scrollHeight;</li>
+<li>网页被卷去的高: document.body.scrollTop;</li>
+<li>网页被卷去的左: document.body.scrollLeft;</li>
+<li>网页正文部分上: window.screenTop;</li>
+<li>网页正文部分左: window.screenLeft;</li>
+<li>屏幕分辨率的高: window.screen.height;</li>
+<li>屏幕分辨率的宽: window.screen.width;</li>
+<li>屏幕可用工作区高度：window.screen.availHeight;</li>
+<li>屏幕可用工作区宽度：window.screen.availWidth;</li>
+<li>滚动条滚动距离:scrollLeft/scrollTop<br>  var scrollTop = document.documentElement.scrollTop || document.body.scrollTop;</li>
+<li>边框的厚度: clientLeft/clientTop</li>
+<li>鼠标位置: ev.clientX/ev.clientY</li>
+</ul>
+<h2 id="基于jQuery一些方法"><a href="#基于jQuery一些方法" class="headerlink" title="基于jQuery一些方法"></a>基于jQuery一些方法</h2><ul>
+<li>目标选择器距离网页页面顶端的高度<br>  var test = $(“.test”).offset().top;</li>
+<li>浏览器窗口的高度<br>  var win_h = $(window).height();</li>
+<li>滚动条的高度<br>  var scr_h = $(window).scrollTop();</li>
+<li>滚动窗口触发事件函数  <figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$(window).scroll(<span class="function"><span class="title">function</span></span>()&#123;</div><div class="line">	//...</div><div class="line">&#125;)</div></pre></td></tr></table></figure></li>
+</ul>
+  
+	</div>
+		<footer class="article-footer clearfix">
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/Javascript/">Javascript</a>
+  </div>
+
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/前端开发/">前端开发</a>
+</div>
+
+
+
+<div class="article-share" id="share">
+
+  <div data-url="https://yk1062008412.github.io/2017/06/05/原生js操作DOM元素/" data-title="原生js操作DOM元素 | yk" data-tsina="null" class="share clearfix">
+  </div>
+
+</div>
+</footer>   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2017/06/16/Echarts3入门/" title="Echarts3入门">
+  <strong>PREVIOUS:</strong><br/>
+  <span>
+  Echarts3入门</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2017/05/18/SASS用法/"  title="SASS用法">
+ <strong>NEXT:</strong><br/> 
+ <span>SASS用法
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#当前元素节点"><span class="toc-number">1.</span> <span class="toc-text">当前元素节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#元素相关节点"><span class="toc-number">2.</span> <span class="toc-text">元素相关节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#创建节点"><span class="toc-number">3.</span> <span class="toc-text">创建节点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#浏览器宽高"><span class="toc-number">4.</span> <span class="toc-text">浏览器宽高</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#基于jQuery一些方法"><span class="toc-number">5.</span> <span class="toc-text">基于jQuery一些方法</span></a></li></ol>
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+			<li><a href="/categories/CSS/" title="CSS">CSS<sup>6</sup></a></li>
+		
+			<li><a href="/categories/ECMAScript-6/" title="ECMAScript 6">ECMAScript 6<sup>1</sup></a></li>
+		
+			<li><a href="/categories/Javascript/" title="Javascript">Javascript<sup>6</sup></a></li>
+		
+			<li><a href="/categories/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/categories/React/" title="React">React<sup>2</sup></a></li>
+		
+			<li><a href="/categories/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/categories/前端开发/" title="前端开发">前端开发<sup>5</sup></a></li>
+		
+			<li><a href="/categories/移动端开发/" title="移动端开发">移动端开发<sup>2</sup></a></li>
+		
+			<li><a href="/categories/面试/" title="面试">面试<sup>1</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			<li><a href="/tags/CSS/" title="CSS">CSS<sup>2</sup></a></li>
+		
+			<li><a href="/tags/CSS3/" title="CSS3">CSS3<sup>4</sup></a></li>
+		
+			<li><a href="/tags/ES6/" title="ES6">ES6<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Echarts/" title="Echarts">Echarts<sup>1</sup></a></li>
+		
+			<li><a href="/tags/HTML/" title="HTML">HTML<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Javascript/" title="Javascript">Javascript<sup>11</sup></a></li>
+		
+			<li><a href="/tags/Linux/" title="Linux">Linux<sup>4</sup></a></li>
+		
+			<li><a href="/tags/React/" title="React">React<sup>2</sup></a></li>
+		
+			<li><a href="/tags/SASS/" title="SASS">SASS<sup>1</sup></a></li>
+		
+			<li><a href="/tags/Shell/" title="Shell">Shell<sup>3</sup></a></li>
+		
+			<li><a href="/tags/hexo/" title="hexo">hexo<sup>1</sup></a></li>
+		
+			<li><a href="/tags/前端面试/" title="前端面试">前端面试<sup>2</sup></a></li>
+		
+			<li><a href="/tags/小程序/" title="小程序">小程序<sup>1</sup></a></li>
+		
+			<li><a href="/tags/移动端/" title="移动端">移动端<sup>2</sup></a></li>
+		
+		</ul>
+</div>
+
+
+  <div class="rsspart" style="display:none;">
+	<a href="/atom.xml" title="rss">RSS 订阅</a>
+</div>
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<div class="social-font clearfix">
+		
+		
+		
+		
+		
+	</div>
+		<p class="copyright">Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/A-limon/pacman" target="_blank" title="Pacman">Pacman</a> © 2019 
+		
+		<a href="https://yk1062008412.github.io" target="_blank" title="yk">yk</a>
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.1.0.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else
+    {
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      h  = $('article h2')
+      ah = $('article h2'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  if(ah.length==0){
+    t.css('display','none');
+  }else{
+    c.click(function(){
+      ta.css('display', 'block').addClass('fadeIn');
+    });
+    o.click(function(){
+      ta.css('display', 'none');
+    });
+    $(window).scroll(function(){
+      ta.css("top",Math.max(140,320-$(this).scrollTop()));
+    });
+  };
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina');
+      var html = [
+        '<a href="#" class="overlay" id="qrcode"></a>',
+        '<div class="qrcode clearfix"><span>扫描二维码分享到微信朋友圈</span><a class="qrclose" href="#share"></a><strong>Loading...Please wait</strong><img id="qrcode-pic" data-src="http://s.jiathis.com/qrcode.php?url=' + encodedUrl + '"/></div>',
+        '<a href="#textlogo" class="article-back-to-top" title="Top"></a>',
+        '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+        '<a href="#qrcode" class="article-share-qrcode" title="QRcode"></a>',
+        '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+        '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="Weibo"></a>',
+        '<span title="Share to"></span>'
+        ].join('');
+      $this.append(html);
+      $('.article-share-qrcode').click(function(){
+        var imgSrc = $('#qrcode-pic').attr('data-src');
+        $('#qrcode-pic').attr('src', imgSrc);
+        $('#qrcode-pic').load(function(){
+            $('.qrcode strong').text(' ');
+        });
+      });
+});     
+</script>
+
+
+
+
+
+<script type="text/javascript">
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+ga('create', 'null', 'null');  
+ga('send', 'pageview');
+</script>
+
+
+  </body>
+</html>
